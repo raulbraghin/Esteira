@@ -46,6 +46,20 @@ int ContPaletes = 0;
 bool EmergAtiva = false;
 bool ResetProcesso = false;
 
+unsigned long millisec;
+unsigned long dsec1;
+unsigned long dsec2;
+unsigned long dsec3;
+unsigned long dsec4;
+unsigned long dsec5;
+
+long TPIntProc1;
+long TPIntProc2;
+long TPIntProc3;
+long TPIntProc4;
+long TPIntProc5;
+
+
 
 
 void setup() {
@@ -76,20 +90,33 @@ void setup() {
   MotorGarra1.setAcceleration(100);
   MotorGarra2.setAcceleration(100);
 
-
+  millisec = millis();
 
   Serial.println("Fim do Setup");
 }
 
 void loop() {
-  
-FuncBotoes();
 
-FuncSensores();
+  FuncBotoes();
 
-FuncLCD();
+  FuncSensores();
 
-FuncEsteira();
+  FuncLCD();
+
+  FuncEsteira();
+}
 
 
+void FuncTempo() {
+
+  if ((millis() - millisec) >= 100) {
+    dsec1++;
+    dsec2++;
+    dsec3++;
+  }
+
+
+  if (millis() < millisec) {
+    millisec = millis();
+  }
 }
