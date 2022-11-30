@@ -6,14 +6,14 @@
 //************************** MOTORES DE PASSO *************************
 AccelStepper MotorEsteira(1, 3, 4);  //EN-ENABLE  CW-STEPS  CLK-DIRECTION
 AccelStepper MotorMesa(2, 8, 9);
-/*AccelStepper MotorGarra1(8, 9, 10);
-AccelStepper MotorGarra2(11, 12, 13);
+AccelStepper MotorGarraD(3, 10, 11);
+AccelStepper MotorGarraE(4, 12, 13);
 
-*/
+
 //Valores devem ser definidos para posicionamento, exceto da esteria que deve ser em excesso
 #define PassosEsteira 1000  //Se precisa de 900 passos para o palete chegar até o sensor, colocar 1000 ara ter certeza
-#define PassosMesaVazia 500
-#define PassosMesaCheia 300
+#define PassosGarraVazia 500
+#define PassosGarraCheia 300
 #define PassosGarra 100
 
 
@@ -52,10 +52,16 @@ bool EmergAtiva = false;
 bool ResetProcesso = false;
 
 bool LigaEsteira = false;
-bool LigaMesa = false;
+bool SobeMesa = false;
+bool DesceMesa = false;
+
+bool AcioGarrasPrimPalete = false;
+bool AcioGarrasNPalete = false;
+
+bool LiberaMesaPrimeiroPalete = false;
+bool LiberaMesaNPalete = false;
 
 unsigned long tempoins;
-
 long dseg1;
 long dseg2;
 long dseg3;
@@ -85,15 +91,15 @@ void setup() {
   MotorMesa.setMaxSpeed(500);
   MotorMesa.setAcceleration(100);
 
-  /* 
-  MotorGarra1.setMaxSpeed(500);
-  MotorGarra2.setMaxSpeed(500);
+  MotorGarraD.setMaxSpeed(500);
+  MotorGarraD.setAcceleration(10);
 
-  //A Aceleração e a desaceleração levam 100 passos
-  
-  MotorGarra1.setAcceleration(100);
-  MotorGarra2.setAcceleration(100);
-*/
+  MotorGarraE.setMaxSpeed(500);
+  MotorGarraE.setAcceleration(10);
+
+
+
+
 
   tempoins = millis();
 
@@ -110,7 +116,13 @@ void loop() {
 
   FuncEsteira();
 
-  FuncMesa();
+  FuncSobeMesa();
+
+  FuncDesceMesa();
+
+  FuncAbreGarra();
+
+  FuncFechaGarra();
 
 
 
