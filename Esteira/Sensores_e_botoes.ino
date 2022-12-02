@@ -26,7 +26,7 @@ void FuncSensores(){
 //Leitura dos Sensores
 SensorInicio = digitalRead(Inicio);
 SensorMesa = digitalRead(Mesa);
-//SensorFim = digitalRead(Fim);
+SensorFim = digitalRead(Fim);
 
 
 

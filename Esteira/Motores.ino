@@ -13,7 +13,7 @@ void FuncEsteira() {
   }
 
 
-  if (SensorMesa == false && LigaEsteira == true) {  //PARA MOTOR DA ESTEIRA
+  if (SensorMesa == false && LigaEsteira == true && FinalizaProcesso == false) {  //PARA MOTOR DA ESTEIRA
 
     LigaEsteira = false;
 
@@ -47,7 +47,7 @@ void FuncAbreGarra() {
     Serial.print("POS Motor Garra D");
     Serial.println(MotorGarraD.currentPosition());
 
-    MotorGarraE.move(PassosGarra);
+    MotorGarraE.move(-PassosGarra);
     MotorGarraE.run();
 
     Serial.print("POS Motor Garra E");
@@ -64,11 +64,34 @@ void FuncAbreGarra() {
 
 
 
-    if (ContPaletes > 0 && SensorMesa == false && LigaEsteira == false && dseg1 >= 5) {  //SE NÃO FOR O PRIMEIRO PALETE
+  if (ContPaletes > 0 && SensorMesa == false && LigaEsteira == false && LiberaMesaNPalete == false && dseg1 >= 5) {  //SE NÃO FOR O PRIMEIRO PALETE
 
-    LiberaMesaNPalete = true;   //Libeta mesa para começar a subir
+    LiberaMesaNPalete = true;  //Libera mesa para começar a subir
+
+    dseg2 = 0;
   }
-  
+
+
+  if (MotorMesa.currentPosition() == PassosGarraCheia && LiberaMesaNPalete == true && SobeMesa == false) {
+
+
+    MotorGarraD.move(PassosGarra);
+    MotorGarraD.run();
+
+    Serial.print("POS Motor Garra D");
+    Serial.println(MotorGarraD.currentPosition());
+
+    MotorGarraE.move(-PassosGarra);
+    MotorGarraE.run();
+
+    Serial.print("POS Motor Garra E");
+    Serial.println(MotorGarraE.currentPosition());
+  }
+
+  if (MotorGarraD.currentPosition() == PassosGarra && MotorGarraE.currentPosition() == PassosGarra) {
+
+    SobeMesa2Estagio = true;
+  }
 }
 
 
@@ -81,6 +104,7 @@ void FuncSobeMesa() {
     Serial.println("SobeMesa = true");
   }
 
+
   if (SobeMesa == true && LiberaMesaPrimeiroPalete == true) {  //ACIONA MOTOR DA MESA QUANDO NÃO TEM NENHUM PALETE NA GARRA
 
     MotorMesa.move(PassosGarraVazia);
@@ -90,27 +114,8 @@ void FuncSobeMesa() {
     Serial.println(MotorMesa.currentPosition());
 
     Serial.println("SobeMesaVazia");
-
-
-  }
-  
-  if (LiberaMesaNPalete == true && dseg2 >= 5) {  //Tempo entre a aberturada garra e o inicio do movimento da mesa em décimos de segundos
-    SobeMesa = true;
-
-    Serial.println("SobeMesa = true");
   }
 
-  
-  if (SobeMesa == true && LiberaMesaNPalete == true) {  //ACIONA MOTOR DA MESA QUANDO JÁ TEM PALETE NA GARRA
-    MotorMesa.move(PassosGarraCheia);
-    MotorMesa.run();
-
-    Serial.print("POS ");
-    Serial.println(MotorMesa.currentPosition());
-
-    Serial.println("SobeMesaCheia");
-  }
-  
 
   if (MotorMesa.currentPosition() == PassosGarraVazia && LiberaMesaPrimeiroPalete == true) {  //FINALIZA MOVIMENTO DO MOTOR DA MESA
     SobeMesa = false;
@@ -125,10 +130,51 @@ void FuncSobeMesa() {
   }
 
 
-  if (MotorMesa.currentPosition() == PassosGarraCheia && ContPaletes != 0) {  //FINALIZA MOVIMENTO DO MOTOR DA MESA
+  if (LiberaMesaNPalete == true && dseg2 >= 5) {  //Tempo entre a aberturada garra e o inicio do movimento da mesa em décimos de segundos
+    SobeMesa = true;
+
+    Serial.println("SobeMesa = true");
+  }
+
+
+  if (SobeMesa == true && LiberaMesaNPalete == true) {  //ACIONA MOTOR DA MESA QUANDO JÁ TEM PALETE NA GARRA
+    MotorMesa.move(PassosGarraCheia);
+    MotorMesa.run();
+
+    Serial.print("POS ");
+    Serial.println(MotorMesa.currentPosition());
+
+    Serial.println("SobeMesaCheia");
+  }
+
+
+
+  if (MotorMesa.currentPosition() == PassosGarraCheia && LiberaMesaNPalete == true) {  //FINALIZA PRIMEIRO MOVIMENTO DO MOTOR DA MESA
     SobeMesa = false;
 
     Serial.println("Para Mesa CHEIA");
+  }
+
+  if (SobeMesa2Estagio == true) {
+
+    MotorMesa.move(PassosGarraVazia);
+    MotorMesa.run();
+
+
+    Serial.print("POS ");
+    Serial.println(MotorMesa.currentPosition());
+  }
+
+  if (MotorMesa.currentPosition() == PassosGarraVazia && SobeMesa2Estagio == true) {
+
+
+    LiberaFecharGarras = true;
+
+    LiberaMesaNPalete = false;
+
+    SobeMesa2Estagio = false;
+
+    dseg3 = 0;
   }
 }
 
@@ -182,6 +228,61 @@ void FuncDesceMesa() {
   if (DesceMesa == true && MotorMesa.currentPosition() == 0) {
 
     DesceMesa = false;
+  }
+}
+
+//************************************************************************
+void FuncFinaliza() {
+
+  if (ContPaletes == EmpilhamentoMaximo && MotorMesa.currentPosition() == 0) {
+
+    FinalizaProcesso = true;
+  }
+
+  if (FinalizaProcesso == true) {
+
+    MotorMesa.move(PassosGarraVazia);
+    MotorMesa.run();
+  }
+
+  if (FinalizaProcesso == true && MotorMesa.currentPosition() == PassosGarraVazia) {
+
+    MotorGarraD.move(PassosGarra);
+    MotorGarraD.run();
+
+    Serial.print("POS Motor Garra D");
+    Serial.println(MotorGarraD.currentPosition());
+
+    MotorGarraE.move(-PassosGarra);
+    MotorGarraE.run();
+
+    Serial.print("POS Motor Garra E");
+    Serial.println(MotorGarraE.currentPosition());
+  }
+
+  if (FinalizaProcesso == true && MotorGarraD.currentPosition() == PassosGarra && MotorGarraE.currentPosition() == -PassosGarra) {
+
+    MotorMesa.move(0);
+    MotorMesa.run();
+  }
+
+
+  if (FinalizaProcesso == true && MotorGarraD.currentPosition() == PassosGarra && MotorGarraE.currentPosition() == -PassosGarra && MotorMesa.currentPosition() == 0) {
+
+        MotorEsteira.move(PassosEsteira);
+    MotorEsteira.run();
+
+    Serial.print("POS ");
+    Serial.println(MotorEsteira.currentPosition());
     
   }
+
+  if (SensorFim == false) {
+
+  MotorEsteira.stop();
+    
+  }
+  
+
+  
 }

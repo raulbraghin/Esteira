@@ -1,5 +1,4 @@
 #include "AccelStepper.h"       //Motor de Passo
-#include "EEPROM.h"             //EEPROM
 #include "Wire.h"               //biblioteca I2C
 #include "LiquidCrystal_I2C.h"  //LCD I2C
 
@@ -18,12 +17,13 @@ AccelStepper MotorGarraE(4, 12, 13);
 
 
 //************************** SENSORES DE POSIÇÃO ************************
-/*#define Inicio 23
-#define Mesa 25
-#define Fim 27
-*/
+//#define Inicio 23
+//#define Mesa 25
+//#define Fim 27
+
 #define Inicio 6
 #define Mesa 7
+#define Fim 8
 
 bool SensorInicio;
 bool SensorMesa;
@@ -53,6 +53,7 @@ bool ResetProcesso = false;
 
 bool LigaEsteira = false;
 bool SobeMesa = false;
+bool SobeMesa2Estagio = false;
 bool DesceMesa = false;
 
 bool AcioGarrasPrimPalete = false;
@@ -61,6 +62,9 @@ bool LiberaFecharGarras = false;
 
 bool LiberaMesaPrimeiroPalete = false;
 bool LiberaMesaNPalete = false;
+
+int EmpilhamentoMaximo = 5;
+bool FinalizaProcesso;
 
 unsigned long tempoins;
 long dseg1;
@@ -83,7 +87,7 @@ void setup() {
 */
   pinMode(Inicio, INPUT_PULLUP);
   pinMode(Mesa, INPUT_PULLUP);
-  //pinMode(Fim, INPUT_PULLUP);
+  pinMode(Fim, INPUT_PULLUP);
 
   //Velocidade de rotação do motor
   MotorEsteira.setMaxSpeed(2000);
@@ -125,6 +129,7 @@ void loop() {
 
   FuncFechaGarra();
 
+  FuncFinaliza();
 
 
   FuncTempo();
