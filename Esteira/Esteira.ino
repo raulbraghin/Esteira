@@ -57,6 +57,7 @@ bool DesceMesa = false;
 
 bool AcioGarrasPrimPalete = false;
 bool AcioGarrasNPalete = false;
+bool LiberaFecharGarras = false;
 
 bool LiberaMesaPrimeiroPalete = false;
 bool LiberaMesaNPalete = false;

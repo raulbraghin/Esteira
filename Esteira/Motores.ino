@@ -61,6 +61,14 @@ void FuncAbreGarra() {
 
     dseg2 = 0;
   }
+
+
+
+    if (ContPaletes > 0 && SensorMesa == false && LigaEsteira == false && dseg1 >= 5) {  //SE NÃO FOR O PRIMEIRO PALETE
+
+    LiberaMesaNPalete = true;   //Libeta mesa para começar a subir
+  }
+  
 }
 
 
@@ -84,7 +92,16 @@ void FuncSobeMesa() {
     Serial.println("SobeMesaVazia");
 
 
-  } else if (SobeMesa == true && LiberaMesaNPalete == true) {  //ACIONA MOTOR DA MESA QUANDO JÁ TEM PALETE NA GARRA
+  }
+  
+  if (LiberaMesaNPalete == true && dseg2 >= 5) {  //Tempo entre a aberturada garra e o inicio do movimento da mesa em décimos de segundos
+    SobeMesa = true;
+
+    Serial.println("SobeMesa = true");
+  }
+
+  
+  if (SobeMesa == true && LiberaMesaNPalete == true) {  //ACIONA MOTOR DA MESA QUANDO JÁ TEM PALETE NA GARRA
     MotorMesa.move(PassosGarraCheia);
     MotorMesa.run();
 
@@ -93,11 +110,14 @@ void FuncSobeMesa() {
 
     Serial.println("SobeMesaCheia");
   }
+  
 
   if (MotorMesa.currentPosition() == PassosGarraVazia && LiberaMesaPrimeiroPalete == true) {  //FINALIZA MOVIMENTO DO MOTOR DA MESA
     SobeMesa = false;
 
-    //MotorMesa.setCurrentPosition(0);
+    LiberaFecharGarras = true;
+
+    dseg3 = 0;
 
     ContPaletes++;
 
@@ -108,10 +128,6 @@ void FuncSobeMesa() {
   if (MotorMesa.currentPosition() == PassosGarraCheia && ContPaletes != 0) {  //FINALIZA MOVIMENTO DO MOTOR DA MESA
     SobeMesa = false;
 
-    //MotorMesa.setCurrentPosition(0);
-
-    ContPaletes++;
-
     Serial.println("Para Mesa CHEIA");
   }
 }
@@ -120,7 +136,7 @@ void FuncSobeMesa() {
 //************************************************************************
 void FuncFechaGarra() {
 
-  if (AcioGarrasPrimPalete == true && LiberaMesaPrimeiroPalete == true) {
+  if (LiberaFecharGarras == true && dseg3 >= 5) {
 
     MotorGarraD.move(0);
     MotorGarraD.run();
@@ -140,19 +156,20 @@ void FuncFechaGarra() {
 
   if (MotorGarraD.currentPosition() == 0 && MotorGarraE.currentPosition() == 0) {
 
-    AcioGarrasPrimPalete == false;
-    LiberaMesaPrimeiroPalete == false;
+    AcioGarrasPrimPalete = false;
+    LiberaMesaPrimeiroPalete = false;
+    LiberaFecharGarras = false;
 
     DesceMesa = true;
 
-    dseg3++;
+    dseg4++;
   }
 }
 
 //************************************************************************
 void FuncDesceMesa() {
 
-  if (DesceMesa == true && dseg3 >= 5) {
+  if (DesceMesa == true && dseg4 >= 5) {
 
     MotorMesa.move(0);
     MotorMesa.run();
