@@ -50,22 +50,18 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);  //endereço, colunas, linhas
 
 
 //************************** VARIÁVEIS DE PROCESSO **********************
-int ContPaletes = 0;
+int ContPaletes = 4;
 
 bool EmergAtiva = false;
 bool ResetProcesso = false;
 
 bool LigaEsteira = false;
-bool SobeMesa = false;
-bool SobeMesa2Estagio = false;
-bool DesceMesa = false;
 
-bool AcioGarrasPrimPalete = false;
-bool AcioGarrasNPalete = false;
-bool LiberaFecharGarras = false;
-
-bool LiberaMesaPrimeiroPalete = false;
-bool LiberaMesaNPalete = false;
+bool Etapa1 = false;
+bool Etapa2 = false;
+bool Etapa3 = false;
+bool Etapa4 = false;
+bool Etapa5 = false;
 
 int EmpilhamentoMaximo = 5;
 bool FinalizaProcesso;
@@ -75,6 +71,7 @@ long dseg1;
 long dseg2;
 long dseg3;
 long dseg4;
+long dseg5;
 
 
 void setup() {
@@ -93,8 +90,12 @@ void setup() {
   pinMode(Mesa, INPUT_PULLUP);
   pinMode(Fim, INPUT_PULLUP);
 
+  pinMode(A0, OUTPUT);
+  pinMode(A1, OUTPUT);
+  pinMode(A2, OUTPUT);
+
   //Velocidade de rotação do motor
-  MotorEsteira.setMaxSpeed(2000);
+  MotorEsteira.setMaxSpeed(500);
   MotorEsteira.setAcceleration(100);
 
   MotorMesa.setMaxSpeed(500);
@@ -124,23 +125,28 @@ void loop() {
   FuncLCD();
 
   if (EmergAtiva == false) {
-    FuncEsteira();
 
-    FuncSobeMesa();
+    if (ContPaletes == 0) {
 
-    FuncDesceMesa();
+      FuncPrimeiroPalete();
+    }
 
-    FuncAbreGarra();
+    if (ContPaletes > 0 && ContPaletes < EmpilhamentoMaximo) {
 
-    FuncFechaGarra();
+      FuncNPaletes();
+    }
 
-    FuncFinaliza();
+    if (ContPaletes == EmpilhamentoMaximo) {
+
+      FuncFinaliza();
+    }
+
+    
   } else {
     FuncEmergencia();
   }
 
   FuncTempo();
-  
 }
 
 
@@ -154,6 +160,7 @@ void FuncTempo() {
     dseg2++;
     dseg3++;
     dseg4++;
+    dseg5++;
     tempoins = millis();
   }
 
@@ -163,3 +170,17 @@ void FuncTempo() {
   }
 
 }  //FIM DO temporizador
+
+
+
+//************************************************************************
+void FuncEmergencia() {
+
+  MotorEsteira.stop();
+  MotorGarraD.stop();
+  MotorGarraE.stop();
+  MotorMesa.stop();
+
+
+  Serial.println("FuncEmergencia");
+}

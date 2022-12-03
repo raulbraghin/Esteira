@@ -3,12 +3,10 @@
 #include "LiquidCrystal_I2C.h"  //LCD I2C
 
 //************************** MOTORES DE PASSO *************************
-//AccelStepper MotorEsteira(2, 3, 4);  //EN-ENABLE  CW-STEPS  CLK-DIRECTION
-//AccelStepper MotorMesa(5, 6, 7);
-AccelStepper MotorEsteira(A0, A1, A2);  //EN-ENABLE  CW-STEPS  CLK-DIRECTION
-AccelStepper MotorMesa(A3, A6, A7);
-AccelStepper MotorGarraD(8, 9, 10);
-AccelStepper MotorGarraE(11, 12, 13);
+AccelStepper MotorEsteira(23, 25, 27);  //EN-ENABLE  CW-STEPS  CLK-DIRECTION
+AccelStepper MotorMesa(22, 24, 26);
+AccelStepper MotorGarraD(31, 33, 35);
+AccelStepper MotorGarraE(30, 32, 34);
 
 
 //Valores devem ser definidos para posicionamento, exceto da esteria que deve ser em excesso
@@ -19,27 +17,19 @@ int PassosGarra = 100;
 
 
 //************************** SENSORES DE POSIÇÃO ************************
-//#define Inicio 23
-//#define Mesa 25
-//#define Fim 27
-
-#define Inicio 5
-#define Mesa 6
-#define Fim 7
+#define Inicio 2
+#define Mesa 3
+#define Fim 4
 
 bool SensorInicio;
 bool SensorMesa;
 bool SensorFim;
 
 //************************** BOTÕES *************************************
-#define Start 2
-#define Reset 3
-#define Emergencia 4
-/*
-#define Start 29
-#define Reset 31
-#define Emergencia 33
-*/
+#define Start 6
+#define Reset 7
+#define Emergencia 8
+
 bool BtStart;
 bool BtReset;
 bool BtEmergencia;
@@ -50,22 +40,18 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);  //endereço, colunas, linhas
 
 
 //************************** VARIÁVEIS DE PROCESSO **********************
-int ContPaletes = 0;
+int ContPaletes = 4;
 
 bool EmergAtiva = false;
 bool ResetProcesso = false;
 
 bool LigaEsteira = false;
-bool SobeMesa = false;
-bool SobeMesa2Estagio = false;
-bool DesceMesa = false;
 
-bool AcioGarrasPrimPalete = false;
-bool AcioGarrasNPalete = false;
-bool LiberaFecharGarras = false;
-
-bool LiberaMesaPrimeiroPalete = false;
-bool LiberaMesaNPalete = false;
+bool Etapa1 = false;
+bool Etapa2 = false;
+bool Etapa3 = false;
+bool Etapa4 = false;
+bool Etapa5 = false;
 
 int EmpilhamentoMaximo = 5;
 bool FinalizaProcesso;
@@ -75,6 +61,7 @@ long dseg1;
 long dseg2;
 long dseg3;
 long dseg4;
+long dseg5;
 
 
 void setup() {
@@ -93,8 +80,9 @@ void setup() {
   pinMode(Mesa, INPUT_PULLUP);
   pinMode(Fim, INPUT_PULLUP);
 
+
   //Velocidade de rotação do motor
-  MotorEsteira.setMaxSpeed(2000);
+  MotorEsteira.setMaxSpeed(500);
   MotorEsteira.setAcceleration(100);
 
   MotorMesa.setMaxSpeed(500);
@@ -124,23 +112,33 @@ void loop() {
   FuncLCD();
 
   if (EmergAtiva == false) {
-    FuncEsteira();
 
-    FuncSobeMesa();
+    if (ContPaletes == 0) {
 
-    FuncDesceMesa();
+      FuncPrimeiroPalete();
+    }
 
-    FuncAbreGarra();
+    if (ContPaletes > 0 && ContPaletes < EmpilhamentoMaximo) {
 
-    FuncFechaGarra();
+      FuncNPaletes();
+    }
 
-    FuncFinaliza();
+    if (ContPaletes == EmpilhamentoMaximo) {
+
+      FuncFinaliza();
+    }
+
+
   } else {
     FuncEmergencia();
   }
 
+  if (ResetProcesso == true) {
+
+    FuncReset();
+  }
+
   FuncTempo();
-  
 }
 
 
@@ -154,6 +152,7 @@ void FuncTempo() {
     dseg2++;
     dseg3++;
     dseg4++;
+    dseg5++;
     tempoins = millis();
   }
 
@@ -163,3 +162,36 @@ void FuncTempo() {
   }
 
 }  //FIM DO temporizador
+
+
+
+//************************************************************************
+void FuncEmergencia() {
+
+  MotorEsteira.stop();
+  MotorGarraD.stop();
+  MotorGarraE.stop();
+  MotorMesa.stop();
+
+
+  Serial.println("FuncEmergencia");
+}
+
+//************************************************************************
+void FuncReset() {
+
+  MotorEsteira.stop();
+  MotorGarraD.stop();
+  MotorGarraE.stop();
+  MotorMesa.stop();
+
+  ContPaletes = 0;
+
+
+  MotorMesa.setCurrentPosition(0);
+  MotorGarraD.setCurrentPosition(0);
+  MotorGarraE.setCurrentPosition(0);
+  MotorEsteira.setCurrentPosition(0);
+
+  Serial.println("FuncReset");
+}

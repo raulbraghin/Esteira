@@ -30,11 +30,9 @@ void FuncLCD() {
     lcd.print("   EMERGENCIA   ");
   }
 
-  if (ResetProcesso == true && EmergAtiva == false) {
+  if (ResetProcesso == true) {
 
     lcd.setCursor(0, 0);
     lcd.print("      RESET     ");
-
-    ContPaletes = 0;
   }
 }

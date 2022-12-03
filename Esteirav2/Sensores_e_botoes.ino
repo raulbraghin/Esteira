@@ -2,7 +2,7 @@ void FuncBotoes() {
   //Leitura das entradas digitais
   BtStart = digitalRead(Start);
   BtReset = digitalRead(Reset);
-  /*BtEmergencia = digitalRead(Emergencia);
+  BtEmergencia = digitalRead(Emergencia);
 
 
   if (BtEmergencia == false) {
@@ -12,7 +12,7 @@ void FuncBotoes() {
   } else {
     EmergAtiva = false;
   }
-*/
+
 
   if (BtReset == false) {
     ResetProcesso = true;
