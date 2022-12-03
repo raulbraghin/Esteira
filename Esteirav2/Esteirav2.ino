@@ -40,7 +40,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);  //endereço, colunas, linhas
 
 
 //************************** VARIÁVEIS DE PROCESSO **********************
-int ContPaletes = 4;
+int ContPaletes = 0;
 
 bool EmergAtiva = false;
 bool ResetProcesso = false;
