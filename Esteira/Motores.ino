@@ -1,5 +1,7 @@
 void FuncEsteira() {
 
+//INICIO DO PROCESSO
+
   if (SensorInicio == false && BtStart == false && LigaEsteira == false) {
     LigaEsteira = true;
   }
@@ -12,6 +14,7 @@ void FuncEsteira() {
     Serial.println(MotorEsteira.currentPosition());
   }
 
+//FINALIZA PROCESSO
 
   if (SensorMesa == false && LigaEsteira == true && FinalizaProcesso == false) {  //PARA MOTOR DA ESTEIRA
 

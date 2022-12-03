@@ -10,7 +10,7 @@ AccelStepper MotorGarraE(4, 12, 13);
 
 
 //Valores devem ser definidos para posicionamento, exceto da esteria que deve ser em excesso
-#define PassosEsteira 1000  //Se precisa de 900 passos para o palete chegar até o sensor, colocar 1000 ara ter certeza
+#define PassosEsteira 1000  //Se precisa de 900 passos para o palete chegar até o sensor, colocar 1000 para ter certeza
 #define PassosGarraVazia 500
 #define PassosGarraCheia 300
 #define PassosGarra 100
@@ -23,7 +23,7 @@ AccelStepper MotorGarraE(4, 12, 13);
 
 #define Inicio 6
 #define Mesa 7
-#define Fim 8
+#define Fim 2
 
 bool SensorInicio;
 bool SensorMesa;
@@ -31,6 +31,8 @@ bool SensorFim;
 
 //************************** BOTÕES *************************************
 #define Start 5
+#define Reset A0
+#define Emergencia A1
 /*
 #define Start 29
 #define Reset 31
@@ -82,9 +84,9 @@ void setup() {
   FuncInicializaLCD();
 
   pinMode(Start, INPUT_PULLUP);
-  /* pinMode(Reset, INPUT_PULLUP);
+   pinMode(Reset, INPUT_PULLUP);
   pinMode(Emergencia, INPUT_PULLUP);
-*/
+
   pinMode(Inicio, INPUT_PULLUP);
   pinMode(Mesa, INPUT_PULLUP);
   pinMode(Fim, INPUT_PULLUP);

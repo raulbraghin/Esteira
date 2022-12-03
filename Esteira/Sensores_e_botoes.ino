@@ -1,7 +1,7 @@
 void FuncBotoes() {
   //Leitura das entradas digitais
   BtStart = digitalRead(Start);
-/*  BtReset = digitalRead(Reset);
+  BtReset = digitalRead(Reset);
   BtEmergencia = digitalRead(Emergencia);
 
 
@@ -16,18 +16,13 @@ void FuncBotoes() {
     ResetProcesso = true;
     Serial.println("Botão Reset Pressionado");
     lcd.clear();
-  }*/
-
-
+  }
 }
 
-void FuncSensores(){
+void FuncSensores() {
 
-//Leitura dos Sensores
-SensorInicio = digitalRead(Inicio);
-SensorMesa = digitalRead(Mesa);
-SensorFim = digitalRead(Fim);
-
-
-
+  //Leitura dos Sensores
+  SensorInicio = digitalRead(Inicio);
+  SensorMesa = digitalRead(Mesa);
+  SensorFim = digitalRead(Fim);
 }
