@@ -97,7 +97,7 @@ void FuncFinaliza() {
 
     MotorEsteira.set(Horario, RPMEsteira, PassosPorVolta);
 
-    while (SensorFim == true && LigaEsteira == true) {
+    while (SensorFim == false && LigaEsteira == true) {
 
       MotorEsteira.run();
 
@@ -105,7 +105,7 @@ void FuncFinaliza() {
     }
   }
 
-  if (SensorFim == false && LigaEsteira == true) {
+  if (SensorFim == true && LigaEsteira == true) {
 
 
     LigaEsteira = false;

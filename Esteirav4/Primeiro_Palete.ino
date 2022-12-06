@@ -4,7 +4,7 @@ void FuncPrimeiroPalete() {
 
 
 
-  if (SensorInicio == false && BtStart == false && LigaEsteira == false && Etapa1 == false) {
+  if (SensorInicio == true && BtStart == false && LigaEsteira == false && Etapa1 == false) {
     LigaEsteira = true;
 
     Serial.println("Inicia Primeiro Palete");
@@ -14,7 +14,7 @@ void FuncPrimeiroPalete() {
 
     MotorEsteira.set(Horario, RPMEsteira, PassosPorVolta);
 
-    while (SensorMesa == true) {
+    while (SensorMesa == false) {
 
       MotorEsteira.run();
 
@@ -25,7 +25,7 @@ void FuncPrimeiroPalete() {
 
   //FINALIZA PROCESSO
 
-  if (SensorMesa == false && LigaEsteira == true) {  //PARA MOTOR DA ESTEIRA
+  if (SensorMesa == true && LigaEsteira == true) {  //PARA MOTOR DA ESTEIRA
 
     LigaEsteira = false;
 
@@ -38,7 +38,7 @@ void FuncPrimeiroPalete() {
 
 
   //*************Abre Garra**************************
-  if (Etapa1 == true && Etapa2 == false && SensorMesa == false && LigaEsteira == false && dseg1 >= 5) {
+  if (Etapa1 == true && Etapa2 == false && SensorMesa == true && LigaEsteira == false && dseg1 >= 5) {
 
     Serial.println("FuncAbreGarras Linha 39");
 

@@ -3,8 +3,6 @@
 #include "LiquidCrystal_I2C.h"  //LCD I2C
 
 //************************** MOTORES DE PASSO *************************
-//MWCSTEPPER MotorEsteira(2, 3, 4);  //EN-ENABLE  CW-STEPS  CLK-DIRECTION
-//MWCSTEPPER MotorMesa(5, 6, 7);
 MWCSTEPPER MotorEsteira(23, 25, 27);  //EN-ENABLE   CLK-DIRECTION   CW-STEPS
 MWCSTEPPER MotorMesa(22, 24, 26);
 MWCSTEPPER MotorGarraD(31, 33, 35);
@@ -90,12 +88,11 @@ void setup() {
 
   pinMode(Start, INPUT_PULLUP);
   pinMode(Reset, INPUT_PULLUP);
+  pinMode(Emergencia, INPUT_PULLUP);
 
-  attachInterrupt(3, FuncEmergencia, FALLING);
-
-  pinMode(Inicio, INPUT_PULLUP);
-  pinMode(Mesa, INPUT_PULLUP);
-  pinMode(Fim, INPUT_PULLUP);
+  pinMode(Inicio, INPUT);
+  pinMode(Mesa, INPUT);
+  pinMode(Fim, INPUT);
 
 
   //Inicializa motor
@@ -172,6 +169,11 @@ void FuncTempo() {
 
 //************************************************************************
 void FuncEmergencia() {
+
+  digitalWrite(22, LOW);
+  digitalWrite(30, LOW);
+  digitalWrite(23, LOW);
+  digitalWrite(31, LOW);  
 
   Serial.println("FuncEmergencia");
 }
