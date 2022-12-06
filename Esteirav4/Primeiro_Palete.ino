@@ -2,13 +2,12 @@ void FuncPrimeiroPalete() {
 
   //INICIO DO PROCESSO
 
-  
+
 
   if (SensorInicio == false && BtStart == false && LigaEsteira == false && Etapa1 == false) {
     LigaEsteira = true;
 
     Serial.println("Inicia Primeiro Palete");
-    
   }
 
   if (LigaEsteira == true) {  //LIGA MOTOR DA ESTEIRA

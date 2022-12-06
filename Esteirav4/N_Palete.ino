@@ -6,12 +6,10 @@ void FuncNPaletes() {
 
 
   if (SensorInicio == false && BtStart == false && LigaEsteira == false && Etapa1 == false) {
-    
+
     LigaEsteira = true;
 
-Serial.println("Inicia N Palete");
-
-    
+    Serial.println("Inicia N Palete");
   }
 
   if (LigaEsteira == true) {  //LIGA MOTOR DA ESTEIRA
@@ -182,6 +180,5 @@ Serial.println("Inicia N Palete");
     Etapa5 = false;
 
     Serial.println("Finaliza N palete");
-
   }
 }

@@ -5,18 +5,20 @@
 //************************** MOTORES DE PASSO *************************
 //MWCSTEPPER MotorEsteira(2, 3, 4);  //EN-ENABLE  CW-STEPS  CLK-DIRECTION
 //MWCSTEPPER MotorMesa(5, 6, 7);
-MWCSTEPPER MotorEsteira(A0, A1, A2);  //EN-ENABLE   CLK-DIRECTION   CW-STEPS 
-MWCSTEPPER MotorMesa(A3, A6, A7);
-MWCSTEPPER MotorGarraD(8, 9, 10);
-MWCSTEPPER MotorGarraE(11, 12, 13);
+MWCSTEPPER MotorEsteira(23, 25, 27);  //EN-ENABLE   CLK-DIRECTION   CW-STEPS
+MWCSTEPPER MotorMesa(22, 24, 26);
+MWCSTEPPER MotorGarraD(31, 33, 35);
+MWCSTEPPER MotorGarraE(30, 32, 34);
 
+//Sentido de rotação dos motores
 #define Horario 1
 #define Antihorario 0
 
-#define PassosPorVolta 1600   //Definir quantos passo por volta o motor tem que dar
+#define PassosPorVolta 1600  //Definir quantos passo por volta o motor tem que dar
 
 size_t i = 0;
 
+//RPM dos motores
 #define RPMMesa 1
 #define RPMGarras 1
 #define RPMEsteira 1
@@ -31,10 +33,6 @@ int PassosRestantes;
 
 
 //************************** SENSORES DE POSIÇÃO ************************
-//#define Inicio 23
-//#define Mesa 25
-//#define Fim 27
-
 #define Inicio 5
 #define Mesa 6
 #define Fim 7
@@ -45,13 +43,9 @@ bool SensorFim;
 
 //************************** BOTÕES *************************************
 #define Start 2
-#define Reset 3
-#define Emergencia 4
-/*
-#define Start 29
-#define Reset 31
-#define Emergencia 33
-*/
+#define Emergencia 3
+#define Reset 4
+
 bool BtStart;
 bool BtReset;
 bool BtEmergencia;
@@ -96,19 +90,17 @@ void setup() {
 
   pinMode(Start, INPUT_PULLUP);
   pinMode(Reset, INPUT_PULLUP);
-  pinMode(Emergencia, INPUT_PULLUP);
+
+  attachInterrupt(3, FuncEmergencia, FALLING);
 
   pinMode(Inicio, INPUT_PULLUP);
   pinMode(Mesa, INPUT_PULLUP);
   pinMode(Fim, INPUT_PULLUP);
 
-  pinMode(A0, OUTPUT);
-  pinMode(A1, OUTPUT);
-  pinMode(A2, OUTPUT);
 
   //Inicializa motor
   MotorEsteira.init();
-  
+
   MotorMesa.init();
 
   MotorGarraD.init();
@@ -146,7 +138,7 @@ void loop() {
       FuncFinaliza();
     }
 
-    
+
   } else {
     FuncEmergencia();
   }
@@ -180,12 +172,6 @@ void FuncTempo() {
 
 //************************************************************************
 void FuncEmergencia() {
-/*
-  MotorEsteira.stop();
-  MotorGarraD.stop();
-  MotorGarraE.stop();
-  MotorMesa.stop();
-*/
 
   Serial.println("FuncEmergencia");
 }
