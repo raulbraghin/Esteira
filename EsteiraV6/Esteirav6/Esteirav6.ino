@@ -31,6 +31,13 @@ int PassosRestantes;
 
 
 //************************** SENSORES DE POSIÇÃO ************************
+/*#define Inicio 5
+#define Mesa 6
+#define Fim 7
+
+
+*/
+
 #define Inicio 5
 #define Mesa 6
 #define Fim 7
@@ -54,7 +61,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);  //endereço, colunas, linhas
 
 
 //************************** VARIÁVEIS DE PROCESSO **********************
-int ContPaletes = 0;
+int ContPaletes = 4;
 
 bool EmergAtiva = false;
 bool ResetProcesso = false;
@@ -68,7 +75,7 @@ bool Etapa4 = false;
 bool Etapa5 = false;
 
 int EmpilhamentoMaximo = 5;
-bool FinalizaProcesso;
+//bool FinalizaProcesso;
 
 unsigned long tempoins;
 long dseg1;

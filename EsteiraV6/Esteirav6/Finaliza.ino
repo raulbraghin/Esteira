@@ -13,8 +13,8 @@ void FuncFinaliza() {
     for (i = 0; i < PassosGarraVazia; i++) {
       MotorMesa.run();
 
-      Serial.println("Horário");
-      Serial.print(i);
+      //Serial.println("Horário");
+      //Serial.print(i);
     }
   }
 
@@ -42,8 +42,8 @@ void FuncFinaliza() {
 
       MotorGarraD.run();
 
-      Serial.println("Horário");
-      Serial.print(i);
+      //Serial.println("Horário");
+      //Serial.print(i);
     }
   }
 
@@ -66,8 +66,8 @@ void FuncFinaliza() {
     for (i = 0; i < PassosGarraVazia; i++) {
       MotorMesa.run();
 
-      Serial.println("Horário");
-      Serial.print(i);
+      //Serial.println("Horário");
+      //Serial.print(i);
     }
     Serial.println("Desce Mesa Linha 67");
   }
@@ -119,8 +119,8 @@ void FuncFinaliza() {
 
       MotorGarraD.run();
 
-      Serial.println("Horário");
-      Serial.print(i);
+      //Serial.println("Horário");
+      //Serial.print(i);
     }
 
     Serial.println("Fechando Garras Linha 126");
@@ -133,7 +133,7 @@ void FuncFinaliza() {
 
     Serial.println("Finaliza Processo");
 
-
+    i = 0;
 
     ContPaletes = 0;
   }

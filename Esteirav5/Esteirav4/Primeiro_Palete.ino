@@ -34,6 +34,15 @@ void FuncPrimeiroPalete() {
     Serial.println("FuncEsteira Para esteira");
 
     Etapa1 = true;
+
+Serial.println(Etapa1);
+Serial.println(Etapa2);
+Serial.println(SensorMesa);
+Serial.println(LigaEsteira);
+Serial.println(dseg1);
+Serial.println(i);
+Serial.println("Linha 44");
+
   }
 
 
@@ -46,18 +55,29 @@ void FuncPrimeiroPalete() {
 
     MotorGarraD.set(Horario, RPMGarras, PassosPorVolta);
 
+
+      Serial.println(" Garra D Horário");
+      Serial.println(" Garra E AntiHorário");    
+
     for (i = 0; i < PassosGarra; i++) {
       MotorGarraE.run();
 
       MotorGarraD.run();
 
-      Serial.println(" Garra D Horário");
-      Serial.println(" Garra E AntiHorário");
-      Serial.print(i);
+      //Serial.print(i);
     }
   }
 
   if (i == PassosGarra && Etapa1 == true && Etapa2 == false) {
+
+
+Serial.println(Etapa1);
+Serial.println(Etapa2);
+Serial.println(SensorMesa);
+Serial.println(LigaEsteira);
+Serial.println(dseg1);
+Serial.println(i);
+Serial.println("Linha 80");
 
     Serial.println("FuncAbreGarra Linha 59");
 
@@ -70,14 +90,15 @@ void FuncPrimeiroPalete() {
   //*************levanta mesa*************************
   if (Etapa2 == true && Etapa3 == false && dseg2 >= 5) {
 
+Serial.println("Levanta Mesa Horário");
 
     MotorMesa.set(Horario, RPMMesa, PassosPorVolta);
 
     for (i = 0; i < PassosGarraVazia; i++) {
       MotorMesa.run();
 
-      Serial.println("Levanta Mesa Horário");
-      Serial.print(i);
+      
+      //Serial.print(i);
     }
 
     Serial.println("SobeMesaVazia");
@@ -107,8 +128,8 @@ void FuncPrimeiroPalete() {
 
       MotorGarraD.run();
 
-      Serial.println("Horário");
-      Serial.print(i);
+      //Serial.println("Horário");
+      //Serial.print(i);
     }
 
     Serial.println("Fechando Garras Linha 113");
@@ -134,8 +155,8 @@ void FuncPrimeiroPalete() {
     for (i = 0; i < PassosGarraVazia; i++) {
       MotorMesa.run();
 
-      Serial.println("Horário");
-      Serial.print(i);
+      //Serial.println("Horário");
+      //Serial.print(i);
     }
     Serial.println("Desce Mesa Linha 140");
   }
