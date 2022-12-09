@@ -7,14 +7,13 @@ void FuncFinaliza() {
 
     Serial.println("Finalizacao");
 
+    Serial.println("LEVANTANDO MESA");
+
 
     MotorMesa.set(Horario, RPMMesa, PassosPorVolta);
 
     for (i = 0; i < PassosGarraVazia; i++) {
       MotorMesa.run();
-
-      //Serial.println("Horário");
-      //Serial.print(i);
     }
   }
 
@@ -24,14 +23,12 @@ void FuncFinaliza() {
     Etapa1 = true;
 
     dseg1 = 0;
-
-    Serial.println("Sobe Mesa linha 21");
   }
 
   //*************Abre Garra**************************
   if (Etapa1 == true && Etapa2 == false && dseg1 >= 5) {
 
-    Serial.println("FuncAbreGarras Linha 28");
+    Serial.println("ABRINDO GARRA");
 
     MotorGarraE.set(Antihorario, RPMGarras, PassosPorVolta);
 
@@ -41,15 +38,10 @@ void FuncFinaliza() {
       MotorGarraE.run();
 
       MotorGarraD.run();
-
-      //Serial.println("Horário");
-      //Serial.print(i);
     }
   }
 
   if (i == PassosGarra && Etapa2 == false) {
-
-    Serial.println("FuncAbreGarra Linha 45");
 
     dseg2 = 0;
 
@@ -60,16 +52,13 @@ void FuncFinaliza() {
   //**************** abaixa mesa ***************************
   if (Etapa2 == true && Etapa3 == false && dseg2 >= 5) {
 
+    Serial.println("ABAIXANDO MESA");
 
     MotorMesa.set(Antihorario, RPMMesa, PassosPorVolta);
 
     for (i = 0; i < PassosGarraVazia; i++) {
       MotorMesa.run();
-
-      //Serial.println("Horário");
-      //Serial.print(i);
     }
-    Serial.println("Desce Mesa Linha 67");
   }
 
 
@@ -78,8 +67,6 @@ void FuncFinaliza() {
     dseg3 = 0;
 
     Etapa3 = true;
-
-    Serial.println("Finaliza Descer Mesa");
   }
 
 
@@ -87,9 +74,9 @@ void FuncFinaliza() {
 
   if (Etapa3 == true && LigaEsteira == false && dseg3 >= 5) {
 
-    LigaEsteira = true;
+    Serial.println("LIGANDO ESTEIRA");
 
-    Serial.println("Liga Esteira Lnha 85 Finaliza");
+    LigaEsteira = true;
   }
 
   if (LigaEsteira = true && Etapa3 == true) {
@@ -118,12 +105,7 @@ void FuncFinaliza() {
       MotorGarraE.run();
 
       MotorGarraD.run();
-
-      //Serial.println("Horário");
-      //Serial.print(i);
     }
-
-    Serial.println("Fechando Garras Linha 126");
 
     Etapa1 = false;
     Etapa2 = false;
@@ -131,10 +113,10 @@ void FuncFinaliza() {
     Etapa4 = false;
     Etapa5 = false;
 
-    Serial.println("Finaliza Processo");
-
     i = 0;
 
     ContPaletes = 0;
+
+    Serial.println("FINALIZA PROCESSO");
   }
 }

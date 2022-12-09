@@ -19,21 +19,6 @@ void FuncBotoes() {
     Serial.println("Botão Reset Pressionado");
     lcd.clear();
 
-    //fechar garras
-
-    if (i == PassosGarra) {
-
-      MotorGarraE.set(Horario, RPMGarras, PassosPorVolta);
-
-      MotorGarraD.set(Antihorario, RPMGarras, PassosPorVolta);
-
-      for (i = 0; i < PassosGarra; i++) {
-        MotorGarraE.run();
-
-        MotorGarraD.run();
-      }
-    }
-    
   } else {
     ResetProcesso = false;
   }

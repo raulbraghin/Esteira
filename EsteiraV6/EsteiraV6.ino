@@ -31,13 +31,6 @@ int PassosRestantes;
 
 
 //************************** SENSORES DE POSIÇÃO ************************
-/*#define Inicio 5
-#define Mesa 6
-#define Fim 7
-
-
-*/
-
 #define Inicio 5
 #define Mesa 6
 #define Fim 7
@@ -75,7 +68,7 @@ bool Etapa4 = false;
 bool Etapa5 = false;
 
 int EmpilhamentoMaximo = 5;
-//bool FinalizaProcesso;
+
 
 unsigned long tempoins;
 long dseg1;
@@ -180,7 +173,7 @@ void FuncEmergencia() {
   digitalWrite(22, LOW);
   digitalWrite(30, LOW);
   digitalWrite(23, LOW);
-  digitalWrite(31, LOW);  
+  digitalWrite(31, LOW);
 
   Serial.println("FuncEmergencia");
 }
